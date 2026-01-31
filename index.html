@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LV Saneamento | Detecção de Vazamentos e Consultoria Hídrica</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0a4d68;
+            --secondary: #088395;
+            --accent: #05bfdb;
+            --dark: #0a1929;
+            --light: #f0f9ff;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --success: #22c55e;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            color: var(--text);
+            line-height: 1.6;
+            background: var(--light);
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--primary) 100%);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 2rem;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(8, 131, 149, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(5, 191, 219, 0.1) 0%, transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(0deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            text-align: center;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: rgba(5, 191, 219, 0.2);
+            border: 1px solid var(--accent);
+            border-radius: 50px;
+            color: var(--accent);
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .hero h1 .highlight {
+            color: var(--accent);
+            display: block;
+            margin-top: 0.5rem;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            color: rgba(255, 255, 255, 0.85);
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            font-weight: 400;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.25rem 2.5rem;
+            background: var(--success);
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(34, 197, 94, 0.3);
+            animation: fadeInUp 1s ease-out 0.8s both;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(34, 197, 94, 0.4);
+            background: #16a34a;
+        }
+
+        /* Sections */
+        section {
+            padding: 6rem 2rem;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-light);
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 4rem;
+        }
+
+        /* Services Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .service-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--secondary), var(--accent));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+            border-color: var(--accent);
+        }
+
+        .service-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.4s ease;
+        }
+
+        .service-card:hover .service-icon {
+            transform: rotate(10deg) scale(1.1);
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .service-card p {
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+
+        /* Methodology Section */
+        .methodology {
+            background: var(--primary);
+            color: white;
+        }
+
+        .methodology .section-title {
+            color: white;
+        }
+
+        .methodology .section-subtitle {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .methodology-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .methodology-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2.5rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .methodology-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(10px);
+        }
+
+        .methodology-item h3 {
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .methodology-item p {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.8;
+        }
+
+        /* Authority Section */
+        .authority {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        .authority-content {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 4rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            border: 3px solid var(--accent);
+        }
+
+        .authority-content h2 {
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .authority-content p {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            line-height: 1.9;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 4rem 2rem 2rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h3 {
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .footer-section p, .footer-section a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.75rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--accent);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--secondary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .segments {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .segment-badge {
+            background: var(--secondary);
+            padding: 0.5rem 1.25rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* WhatsApp Float Button */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: #25d366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            text-decoration: none;
+            color: white;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 30px rgba(37, 211, 102, 0.6);
+        }
+
+        @media (max-width: 768px) {
+            section {
+                padding: 4rem 1.5rem;
+            }
+
+            .authority-content {
+                padding: 2.5rem 1.5rem;
+            }
+
+            .footer-content {
+                gap: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">🏆 PRÊMIO NACIONAL EM REDUÇÃO DE PERDAS</div>
+            <h1>
+                Vazamento invisível custa caro.
+                <span class="highlight">Nós encontramos.</span>
+            </h1>
+            <p class="hero-subtitle">
+                Especialistas em Detecção de Vazamentos e Redução de Custos com Água. Profissionais com vasta experiência e case premiado nacionalmente.
+            </p>
+            <a href="https://wa.me/5555999196038" class="cta-button">
+                <span>📱</span>
+                Agendar Diagnóstico Técnico via WhatsApp
+            </a>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="servicos">
+        <div class="container">
+            <h2 class="section-title">Nossos Serviços</h2>
+            <p class="section-subtitle">Mais economia, menos desperdício e soluções eficientes em saneamento</p>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">🔍</div>
+                    <h3>Detecção de Vazamentos Ocultos</h3>
+                    <p>Localização não invasiva (sem quebra-quebra) em redes de água limpa, utilizando tecnologia de ultrassom de última geração.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">💧</div>
+                    <h3>Planejamento para Redução de Consumo</h3>
+                    <p>Consultoria estratégica voltada para a identificação de anomalias e otimização financeira da conta de água. <strong>Profissionais com vasta experiência em redução de perdas e case de prêmio nacional.</strong></p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">🏗️</div>
+                    <h3>Consultoria Técnica para Empresas de Saneamento</h3>
+                    <p>Assessoria técnica de alto nível para concessionárias, indústrias e empresas do setor, com experiência comprovada e reconhecimento nacional.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">⚙️</div>
+                    <h3>Estudos de Viabilidade para Recalque</h3>
+                    <p>Estudos técnicos de viabilidade para sistemas de bombeamento em residências, prédios e condomínios com análise completa e soluções personalizadas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Credentials Section -->
+    <section style="background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); padding: 4rem 2rem;">
+        <div class="container">
+            <div style="max-width: 1000px; margin: 0 auto; text-align: center;">
+                <div style="display: inline-block; padding: 1rem 2rem; background: linear-gradient(135deg, #fbbf24, #f59e0b); border-radius: 50px; margin-bottom: 2rem;">
+                    <span style="font-size: 3rem;">🏆</span>
+                </div>
+                <h2 style="font-size: 2.5rem; color: var(--primary); margin-bottom: 1.5rem; font-weight: 700;">
+                    Profissional com Case Nacional
+                </h2>
+                <p style="font-size: 1.3rem; color: var(--text-light); line-height: 1.8; margin-bottom: 2rem;">
+                    Profissional com <strong>vasta experiência em redução de perdas hídricas</strong> e case premiado em âmbito nacional. Combinamos expertise técnica, tecnologia de ponta e resultados comprovados.
+                </p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-top: 3rem;">
+                    <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
+                        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🎯</div>
+                        <div style="font-size: 2rem; font-weight: 700; color: var(--secondary);">15+</div>
+                        <div style="color: var(--text-light);">Anos de Experiência</div>
+                    </div>
+                    <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
+                        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">✅</div>
+                        <div style="font-size: 2rem; font-weight: 700; color: var(--secondary);">100%</div>
+                        <div style="color: var(--text-light);">Precisão no Diagnóstico</div>
+                    </div>
+                    <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
+                        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🏆</div>
+                        <div style="font-size: 2rem; font-weight: 700; color: var(--secondary);">Prêmio</div>
+                        <div style="color: var(--text-light);">Nacional em Redução</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Methodology Section -->
+    <section class="methodology">
+        <div class="container">
+            <h2 class="section-title">Diagnóstico de Precisão</h2>
+            <p class="section-subtitle">Ciência aplicada ao Saneamento</p>
+            
+            <div class="methodology-grid">
+                <div class="methodology-item">
+                    <h3>🎧 Varredura Acústica (Geofone)</h3>
+                    <p>Utilizamos sensores de alta sensibilidade para isolar o ruído da fuga de água, garantindo a localização precisa do vazamento através de solo e estruturas.</p>
+                </div>
+
+                <div class="methodology-item">
+                    <h3>📊 Auditoria Hidráulica</h3>
+                    <p>Realizamos um mapeamento completo da rede para identificar falhas ocultas, fadiga de materiais e irregularidades na pressão.</p>
+                </div>
+
+                <div class="methodology-item">
+                    <h3>🏆 Expertise de 15 Anos</h3>
+                    <p>Nosso corpo técnico combina décadas de experiência em campo com as certificações necessárias para entregar um serviço de padrão industrial.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Authority Section -->
+    <section class="authority">
+        <div class="container">
+            <div class="authority-content">
+                <h2>💰 Segurança Jurídica e Financeira</h2>
+                <p>Além da correção do problema, entregamos o <strong>Laudo Técnico Oficial</strong> para contestação de faturas abusivas junto às concessionárias. Transformamos desperdício em economia real e sustentável.</p>
+            </div>
+            
+            <div style="max-width: 600px; margin: 3rem auto 0; background: #25d366; padding: 2.5rem; border-radius: 20px; text-align: center; box-shadow: 0 10px 40px rgba(37, 211, 102, 0.3);">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">📱</div>
+                <h3 style="color: white; font-size: 1.8rem; margin-bottom: 1rem; font-weight: 700;">Atendimento Rápido pelo WhatsApp</h3>
+                <p style="color: rgba(255,255,255,0.95); font-size: 1.1rem; margin-bottom: 1.5rem;">
+                    Tire suas dúvidas e agende seu diagnóstico técnico de forma rápida e prática
+                </p>
+                <a href="https://wa.me/5555999196038" style="display: inline-block; background: white; color: #25d366; padding: 1rem 2.5rem; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 1.2rem; transition: transform 0.3s ease;">
+                    (55) 99919-6038
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>LV Saneamento</h3>
+                <p>Excelência em detecção de vazamentos e consultoria hídrica com 15 anos de experiência no mercado.</p>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contato</h3>
+                <div class="contact-item">
+                    <div class="contact-icon">📱</div>
+                    <div>
+                        <p><strong>Central de Atendimento</strong></p>
+                        <a href="https://wa.me/5555999196038">(55) 99919-6038</a>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">✉️</div>
+                    <div>
+                        <p><strong>E-mail Corporativo</strong></p>
+                        <a href="mailto:lvsaneamento@hotmail.com.br">lvsaneamento@hotmail.com.br</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>Segmentos Atendidos</h3>
+                <div class="segments">
+                    <span class="segment-badge">Projetos Residenciais</span>
+                    <span class="segment-badge">Complexos Condominiais</span>
+                    <span class="segment-badge">Setor Industrial</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 LV Saneamento. Todos os direitos reservados. | Santa Maria, RS</p>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Flo
